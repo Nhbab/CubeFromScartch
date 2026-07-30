@@ -1,0 +1,3 @@
+# LFS build scripts run on Linux and must always use LF line endings,
+# even when edited or checked out on Windows.
+*.sh text eol=lf

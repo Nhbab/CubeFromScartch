@@ -1,8 +1,8 @@
 #!/bin/bash
-# LFS 11.2 Build Script
+# LFS 13.0 Build Script (systemd edition)
 # Builds the additional temporary tools from chapter 7
 # by Luís Mendes :)
-# 06/Sep/2022
+# Updated for LFS 13.0
 
 package_name=""
 package_ext=""
@@ -26,8 +26,8 @@ finish() {
 
 cd /sources
 
-# 7.7. Gettext-0.21
-begin gettext-0.21 tar.xz
+# 7.7. Gettext-1.0
+begin gettext-1.0 tar.xz
 ./configure --disable-shared
 make
 cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
@@ -41,53 +41,56 @@ make
 make install
 finish
 
-# 7.9. Perl-5.36.0
-begin perl-5.36.0 tar.xz
-sh Configure -des                                        \
-             -Dprefix=/usr                               \
-             -Dvendorprefix=/usr                         \
-             -Dprivlib=/usr/lib/perl5/5.36/core_perl     \
-             -Darchlib=/usr/lib/perl5/5.36/core_perl     \
-             -Dsitelib=/usr/lib/perl5/5.36/site_perl     \
-             -Dsitearch=/usr/lib/perl5/5.36/site_perl    \
-             -Dvendorlib=/usr/lib/perl5/5.36/vendor_perl \
-             -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl
+# 7.9. Perl-5.42.0
+begin perl-5.42.0 tar.xz
+sh Configure -des                                         \
+             -D prefix=/usr                               \
+             -D vendorprefix=/usr                         \
+             -D useshrplib                                \
+             -D privlib=/usr/lib/perl5/5.42/core_perl     \
+             -D archlib=/usr/lib/perl5/5.42/core_perl     \
+             -D sitelib=/usr/lib/perl5/5.42/site_perl     \
+             -D sitearch=/usr/lib/perl5/5.42/site_perl    \
+             -D vendorlib=/usr/lib/perl5/5.42/vendor_perl \
+             -D vendorarch=/usr/lib/perl5/5.42/vendor_perl
 make
 make install
 finish
 
-# 7.10. Python-3.10.6
-begin Python-3.10.6 tar.xz
-./configure --prefix=/usr   \
-            --enable-shared \
-            --without-ensurepip
+# 7.10. Python-3.14.3
+begin Python-3.14.3 tar.xz
+./configure --prefix=/usr       \
+            --enable-shared     \
+            --without-ensurepip \
+            --without-static-libpython
 make
 make install
 finish
 
-# 7.11. Texinfo-6.8
-begin texinfo-6.8 tar.xz
+# 7.11. Texinfo-7.2
+begin texinfo-7.2 tar.xz
 ./configure --prefix=/usr
 make
 make install
 finish
 
-# 7.12. Util-linux-2.38.1
-begin util-linux-2.38.1 tar.xz
+# 7.12. Util-linux-2.41.3
+begin util-linux-2.41.3 tar.xz
 mkdir -pv /var/lib/hwclock
-./configure ADJTIME_PATH=/var/lib/hwclock/adjtime    \
-            --libdir=/usr/lib    \
-            --docdir=/usr/share/doc/util-linux-2.38.1 \
-            --disable-chfn-chsh  \
-            --disable-login      \
-            --disable-nologin    \
-            --disable-su         \
-            --disable-setpriv    \
-            --disable-runuser    \
-            --disable-pylibmount \
-            --disable-static     \
-            --without-python     \
-            runstatedir=/run
+./configure --libdir=/usr/lib     \
+            --runstatedir=/run    \
+            --disable-chfn-chsh   \
+            --disable-login       \
+            --disable-nologin     \
+            --disable-su          \
+            --disable-setpriv     \
+            --disable-runuser     \
+            --disable-pylibmount  \
+            --disable-static      \
+            --disable-liblastlog2 \
+            --without-python      \
+            ADJTIME_PATH=/var/lib/hwclock/adjtime \
+            --docdir=/usr/share/doc/util-linux-2.41.3
 make
 make install
 finish
