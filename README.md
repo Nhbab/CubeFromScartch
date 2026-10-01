@@ -1,5 +1,5 @@
-# lfs-scripts 13.0 :penguin:
-Instructions and scripts to build Linux From Scratch (LFS), version 13.0 (systemd edition), as simply as possible (I know, not that simple, but anyway).
+# CubeOS Fork Of LFS Scripts :penguin:
+Credits:https://github.com/luisgbm/lfs-scripts
 
 ![Output of uname -a](https://github.com/luisgbm/lfs-scripts/blob/master/img/uname.png?raw=true)
 
